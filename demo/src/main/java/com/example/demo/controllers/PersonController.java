@@ -1,6 +1,9 @@
 package com.example.demo.controllers;
 
-import com.example.demo.entities.Person;
+import javax.validation.Valid;
+
+import com.example.demo.dto.request.PersonDTO;
+import com.example.demo.dto.response.MessageResponseDTO;
 import com.example.demo.service.PersonService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +27,8 @@ public class PersonController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String createPerson(@RequestBody Person person) {
-        return personService.createPerson(person);
-
+    public MessageResponseDTO create(@RequestBody @Valid PersonDTO personDTO) {
+        return (MessageResponseDTO) personService.createPerson(personDTO);
     }
 
 }

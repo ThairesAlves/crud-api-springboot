@@ -10,8 +10,4 @@ public class MessageResponseDTO {
 
     public String message;
 
-	public static Object builder() {
-		return null;
-	}
-
 }

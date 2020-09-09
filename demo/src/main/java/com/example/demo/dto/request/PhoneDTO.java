@@ -1,5 +1,10 @@
 package com.example.demo.dto.request;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 import com.example.demo.enums.PhoneType;
 
 import lombok.AllArgsConstructor;
@@ -16,7 +21,10 @@ public class PhoneDTO {
     
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     private PhoneType type;
 
+    @NotEmpty
+    @Size(min = 10, max = 14)
     private String number;
 }
