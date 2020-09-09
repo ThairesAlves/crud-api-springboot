@@ -1,5 +1,8 @@
 package com.example.demo.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.example.demo.dto.request.PersonDTO;
 import com.example.demo.dto.response.MessageResponseDTO;
 import com.example.demo.entities.Person;
@@ -28,5 +31,12 @@ public class PersonService {
             .message("Criado pessoa com o ID" + savedPerson.getId())
             .build();
     }
+
+	public List<PersonDTO> listAll() {
+        List<Person> allPeople = personRepository.findAll();
+        return allPeople.stream()
+        .map(personMapper::toDTO)
+        .collect(Collectors.toList());
+	}
 
 }
