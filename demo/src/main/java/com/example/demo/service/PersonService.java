@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import com.example.demo.dto.request.PersonDTO;
 import com.example.demo.dto.response.MessageResponseDTO;
 import com.example.demo.entities.Person;
+import com.example.demo.exception.PersonNotFoundException;
 import com.example.demo.mapper.PersonMapper;
 import com.example.demo.repository.PersonRepository;
 
@@ -27,16 +28,17 @@ public class PersonService {
         Person personTosave = personMapper.toModel(personDto);
 
         Person savedPerson = personRepository.save(personTosave);
-        return MessageResponseDTO.builder()
-            .message("Criado pessoa com o ID" + savedPerson.getId())
-            .build();
+        return MessageResponseDTO.builder().message("Criado pessoa com o ID" + savedPerson.getId()).build();
     }
 
-	public List<PersonDTO> listAll() {
+    public List<PersonDTO> listAll() {
         List<Person> allPeople = personRepository.findAll();
-        return allPeople.stream()
-        .map(personMapper::toDTO)
-        .collect(Collectors.toList());
-	}
+        return allPeople.stream().map(personMapper::toDTO).collect(Collectors.toList());
+    }
+
+    public PersonDTO findById(Long id) throws PersonNotFoundException {
+        Person person = personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
+        return personMapper.toDTO(person);
+    }
 
 }
